@@ -10,14 +10,19 @@ function nextSequence() {
  
   $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
  
-  var audio = new Audio("sounds/" + randomChosenColour + ".mp3");
-  audio.muted = true;
+  playSound(randomChosenColour);
+}
+
+function playSound(color){
+  var audio = new Audio("sounds/" + color + ".mp3");
   audio.play();
-  }
+}
  
 nextSequence();
 
 $("div.btn").click(function(event){  
-  userClickedPattern.push(event.target.id);
+  color = event.target.id
+  userClickedPattern.push(color);
+  playSound(color)
   console.log(userClickedPattern);
 })
