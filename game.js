@@ -22,14 +22,43 @@ function playSound(color){
   audio.play();
 }
  
+function checkAnswer(currentLevel){
+  console.log("user clicked pattern level " + userClickedPattern[currentLevel - 1]);
+  console.log("game pattern pattern level " + gamePattern[currentLevel - 1]);
+  console.log(userClickedPattern);
+  console.log(gamePattern);
+  if(userClickedPattern[currentLevel - 1] == gamePattern[currentLevel - 1]){
+    console.log("success");
+    userClickedPattern = [];
+  } else {
+    console.log("wrong");
+    userClickedPattern = [];
+    gamePattern = [];
+    level = 0;
+  }
+}
 
 
 $("div.btn").click(function(event){  
-  color = event.target.id
+  if(gameHasStarted){
+    color = event.target.id
   userClickedPattern.push(color);
   playSound(color);
   animatePress(color);
-  console.log(userClickedPattern);
+  
+  
+  if(userClickedPattern.length == gamePattern.length){
+    checkAnswer(level);
+  } else {
+    return;
+  }
+
+  setTimeout(function(){
+    nextSequence();
+  },1000);
+  } else {
+    return;
+  }
 })
 
 function animatePress(currentColor){
@@ -39,7 +68,9 @@ function animatePress(currentColor){
   },200);
 }
 
-$("body").keypress(function(){
-  gameHasStarted = true;
-  nextSequence();
+$("body").keypress(function(){  
+  if(!gameHasStarted){
+    nextSequence();
+  }
+  gameHasStarted = true;  
 });
